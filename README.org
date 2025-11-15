@@ -23,14 +23,10 @@ https://copr.fedorainfracloud.org/coprs/archjun/melonDS/
 
 ** How to build melonDS rpm package from this repo
 
-From the project root, first run =make scaffold= to generate the rpmbuild
+From the project root, run =make build= which will generate the ~rpmbuild~
 folder structure:
 
 #+begin_src sh :noeval
-  $ make scaffold
-  Creating RPM build directory structure...
-  Done.
-
   $ tree -d
   .
   ├── BUILD
@@ -40,4 +36,17 @@ folder structure:
   └── SRPMS
 #+end_src
 
+The =make build= recipe will also read ~SPECS/melonDS.spec~ for how to
+build from C/CPP source using =cmake=.
 
+Note that default upstream https://github.com/melonDS-emu/melonDS strips
+out debug info when building from source with =cmake=. However, in this
+repo, the ~melonDS.spec~ specifies that debug headers not be stripped
+with the following =cmake= options:
+
+#+begin_src cmake
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_INSTALL_DO_STRIP=OFF \
+#+end_src
+
+The ~.rpm~ files will be written to ~RPMS/{aarch64,x86_64}/~
