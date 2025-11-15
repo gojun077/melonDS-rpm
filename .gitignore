@@ -1,0 +1,12 @@
+# Ignore all rpmbuild output directories
+/BUILD/
+/BUILDROOT/
+/RPMS/
+/SRPMS/
+
+# Ignore downloaded source files
+/SOURCES/melonDS-*.tar.gz
+# Ignore build logs
+*.log
+# Ignore /tmp folder
+/tmp/

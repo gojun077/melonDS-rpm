@@ -1,0 +1,43 @@
+#+TITLE: melonDS-rpm
+#+SUBTITLE: rpmbuild spec files, scripts for Fedora COPR melonDS build
+#+AUTHOR: Peter Jun Koh
+#+EMAIL: gopeterjun@naver.com
+#+DESCRIPTION:
+#+KEYWORDS: linux, rhel, rpm, packaging, spec, fedora, copr
+#+LANGUAGE: en
+
+* Summary
+
+- Created on: [2025-11-15 Sat]
+- Last Updated: [2025-11-15 Sat 15:35]
+
+This repo contains ~rpm~ package-related config files necessary to package
+the open-source =melonDS= Nintendo DS emulator build from C/CPP source.
+
+The resulting ~rpm~ packages are also built by the Fedora COPR build
+system for Fedora user-submitted packages in the following project:
+
+https://copr.fedorainfracloud.org/coprs/archjun/melonDS/
+
+* Topics
+
+** How to build melonDS rpm package from this repo
+
+From the project root, first run =make scaffold= to generate the rpmbuild
+folder structure:
+
+#+begin_src sh :noeval
+  $ make scaffold
+  Creating RPM build directory structure...
+  Done.
+
+  $ tree -d
+  .
+  ├── BUILD
+  ├── RPMS
+  ├── SOURCES
+  ├── SPECS
+  └── SRPMS
+#+end_src
+
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.kuribo64.melonDS</id>
+  <name>melonDS</name>
+  <summary>Nintendo DS emulator</summary>
+  <developer_name>Arisotura and contributors</developer_name>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <launchable type="desktop-id">net.kuribo64.melonDS.desktop</launchable>
+  <provides>
+    <binary>melonDS</binary>
+  </provides>
+  <description>
+    <p>melonDS is an open source Nintendo DS emulator focused on accuracy while striving to remain fast and portable.</p>
+    <p>It features 2D and 3D rendering, JIT and interpreter engines, online multiplayer, and experimental DSi support.</p>
+  </description>
+  <categories>
+    <category>Game</category>
+    <category>Emulator</category>
+  </categories>
+  <keywords>
+    <keyword>nintendo</keyword>
+    <keyword>ds</keyword>
+    <keyword>emulator</keyword>
+  </keywords>
+  <url type="homepage">https://melonds.kuribo64.net/</url>
+  <url type="bugtracker">https://github.com/melonDS-emu/melonDS/issues</url>
+  <url type="donation">https://www.patreon.com/melonds</url>
+  <releases>
+    <release version="1.0" date="2023-06-16">
+      <description>
+        <p>First public Qt-based desktop build with numerous accuracy and UI refinements.</p>
+      </description>
+    </release>
+  </releases>
+</component>
