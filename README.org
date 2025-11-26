@@ -82,4 +82,4 @@ with the following =cmake= options:
 
 Once the build is complete, the ~.rpm~ build artifacts can be found in
 ~RPMS/{aarch64,x86_64}/~ and the source rpm's can be found in
-~SRPMS/{aarch64,x86_64}/~.
+~SRPMS/~.
