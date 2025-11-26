@@ -1,5 +1,5 @@
 Name:           melonDS
-Version:        1.0
+Version:        1.1
 Release:        1%{?dist}
 Summary:        Nintendo DS emulator
 
@@ -70,6 +70,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml || :
 %{_metainfodir}/net.kuribo64.melonDS.metainfo.xml
 
 %changelog
+* Wed Nov 26 2025 Peter Jun Koh <gopeterjun@naver.com> - 1.1
+- Upstream Release 1.1 on Tue Nov 18 2025
+
 * Sat Nov 15 2025 Peter Jun Koh <gopeterjun@naver.com> - 1.0
 - Initial package for Fedora COPR
 - Built with Qt6 support
