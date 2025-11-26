@@ -9,7 +9,7 @@
 * Summary
 
 - Created on: [2025-11-15 Sat]
-- Last Updated: [2025-11-15 Sat 15:35]
+- Last Updated: [2025-11-26 Wed 16:44]
 
 This repo contains ~rpm~ package-related config files necessary to package
 the open-source =melonDS= Nintendo DS emulator build from C/CPP source.
@@ -23,8 +23,39 @@ https://copr.fedorainfracloud.org/coprs/archjun/melonDS/
 
 ** How to build melonDS rpm package from this repo
 
-From the project root, run =make build= which will generate the ~rpmbuild~
-folder structure:
+First you need to install packages necessary for =rpmbuild=. Assuming you
+are on Fedora:
+
+#+begin_src sh
+  sudo dnf install fedora-packager \
+    fedora-review \
+    mock \
+    rpmdevtools \
+    rpmlint
+#+end_src
+
+Then add your user to the ~mock~ group:
+
+#+begin_src sh
+  sudo usermod -a -G mock $USER
+#+end_src
+
+Finally, install the build dependencies for =melonDS= itself:
+
+#+begin_src sh
+  sudo dnf install SDL2-devel \
+    enet-devel \
+    extra-cmake-modules \
+    libarchive-devel \
+    qt6-qtbase-devel \
+    qt6-qtbase-private-devel \
+    qt6-qtmultimedia-devel \
+    qt6-qtsvg-devel \
+    wayland-devel
+#+end_src
+
+Now from the project root, run =make build= which will generate the
+~rpmbuild~ folder structure:
 
 #+begin_src sh :noeval
   $ tree -d
@@ -49,4 +80,6 @@ with the following =cmake= options:
   -DCMAKE_INSTALL_DO_STRIP=OFF \
 #+end_src
 
-The ~.rpm~ files will be written to ~RPMS/{aarch64,x86_64}/~
+Once the build is complete, the ~.rpm~ build artifacts can be found in
+~RPMS/{aarch64,x86_64}/~ and the source rpm's can be found in
+~SRPMS/{aarch64,x86_64}/~.
