@@ -27,7 +27,7 @@ test: check-tools
 
 check-tools:
 	@echo "Checking for RPM build tools..."
-	@for tool in $(REQUIRED_BINS); do \
+	@for bin in $(REQUIRED_BINS); do \
 		type $$bin >/dev/null || { echo "ERROR: $$bin not found in PATH"; exit 1; }; \
 	done
 	@echo "All required binaries found: $(REQUIRED_BINS)"
