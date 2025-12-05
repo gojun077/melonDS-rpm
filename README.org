@@ -11,7 +11,7 @@
 - Created on: [2025-11-15 Sat]
 - Last Updated: [2025-11-26 Wed 23:39]
 
-[[https://copr.fedorainfracloud.org/coprs/archjun/melonDS/package/melonDS/][[[https://copr.fedorainfracloud.org/coprs/archjun/melonDS/package/melonDS/status_image/last_build.png]]]]
+[[https://copr.fedorainfracloud.org/coprs/archjun/melonDS/package/melonDS/][https://copr.fedorainfracloud.org/coprs/archjun/melonDS/package/melonDS/status_image/last_build.png]]
 
 This repo contains ~rpm~ package-related config files necessary to package
 the open-source =melonDS= Nintendo DS emulator build from C/CPP source.
