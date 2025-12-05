@@ -1,4 +1,7 @@
-# Makefile for building RPMs from a local project directory
+# Makefile for building 'melonDS' RPMs from a local project directory
+# Created by: gopeterjun@naver.com
+# Created on: Sat 15 Nov 2025
+# Last Updated: Fri 05 Dec 2025
 
 # Define the RPM build directories
 BUILD_DIRS = SPECS SOURCES BUILD RPMS SRPMS BUILDROOT
@@ -6,15 +9,28 @@ BUILD_DIRS = SPECS SOURCES BUILD RPMS SRPMS BUILDROOT
 # Define the location of the spec file
 SPEC_FILE = SPECS/melonDS.spec
 
+# Define required tools to build RPM packages
+REQUIRED_BINS := rpmbuild spectool
+
 # Get the absolute path to the current directory
 TOP_DIR = $(shell pwd)
 TMP_DIR = $(TOP_DIR)/tmp
 
 # Phony targets aren't actual files
-.PHONY: all help scaffold sources build clean
+.PHONY: all help scaffold sources test build clean
 
 # Default target: build the RPM
 all: build
+
+test: check-tools
+	@echo "✓  All RPM build tools are available."
+
+check-tools:
+	@echo "Checking for RPM build tools..."
+	@for tool in $(REQUIRED_TOOLS); do \
+		type $$bin >/dev/null || { echo "ERROR: $$bin not found in PATH"; exit 1; }; \
+	done
+	@echo "All required binaries found: $(REQUIRED_BINS)"
 
 # The scaffold target creates the directory structure
 scaffold:
@@ -23,7 +39,7 @@ scaffold:
 	@echo "Done."
 
 # The 'sources' target downloads sources locally
-sources: scaffold
+sources: scaffold test
 	@echo "Downloading sources to $(TOP_DIR)/SOURCES..."
 	@spectool -g -R --define "_topdir $(TOP_DIR)" $(SPEC_FILE)
 
@@ -42,8 +58,7 @@ clean:
 
 # The help target explains available commands
 help:
-	@echo "Available commands:"
-	@echo "  make help      - Shows this help message."
+	@echo "  make test      - check for rpmbuild dependencies."
 	@echo "  make scaffold  - Creates the standard RPM build directories."
 	@echo "  make sources   - Downloads source tarballs into the local SOURCES directory."
 	@echo "  make build     - Builds the binary and source RPMs (default)."
