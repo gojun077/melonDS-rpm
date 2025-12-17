@@ -1,0 +1,52 @@
+name: Build RPMs
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and Release RPMs
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+
+    steps:
+      - name: Install build dependencies
+        run: |
+          dnf -y update
+          dnf -y install \
+            git make rpmdevtools rpm-build spectool \
+            gcc-c++ cmake extra-cmake-modules SDL2-devel libarchive-devel enet-devel libzstd-devel faad2-devel \
+            qt6-qtbase-devel qt6-qtbase-private-devel qt6-qtmultimedia-devel qt6-qtsvg-devel wayland-devel \
+            desktop-file-utils libappstream-glib
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build RPMs
+        run: make build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: rpm-packages-${{ github.run_id }}
+          path: |
+            RPMS/**/*.rpm
+            SRPMS/*.src.rpm
+          if-no-files-found: error
+
+      - name: Publish release assets
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            RPMS/**/*.rpm
+            SRPMS/*.src.rpm
+          draft: false
+          prerelease: false
