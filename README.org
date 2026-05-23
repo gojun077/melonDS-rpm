@@ -21,6 +21,9 @@ system for Fedora user-submitted packages in the following project:
 
 https://copr.fedorainfracloud.org/coprs/archjun/melonDS/
 
+See ~TROUBLESHOOTING.org~ for COPR authentication notes, token expiration,
+Fedora 44 build submission commands, and known build failure diagnostics.
+
 * Topics
 
 ** How to build melonDS rpm package from this repo

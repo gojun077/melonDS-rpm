@@ -1,0 +1,94 @@
+#+TITLE: melonDS-rpm Troubleshooting
+#+AUTHOR: Peter Jun Koh
+#+EMAIL: gopeterjun@naver.com
+#+LANGUAGE: en
+
+* COPR authentication
+
+COPR CLI credentials are stored in =~/.config/copr=.
+
+COPR API tokens expire. Generate a new token from:
+
+https://copr.fedorainfracloud.org/api/
+
+The generated config includes an expiration date. If =copr-cli= starts
+failing with authentication or non-JSON API response errors, check this file
+before changing RPM packaging.
+
+Useful checks:
+
+#+begin_src sh :noeval
+  copr-cli whoami
+  copr-cli get archjun/melonDS
+  copr-cli list-builds archjun/melonDS
+#+end_src
+
+If the Fedora account password was reset, generate and save a fresh COPR API
+token even if the Fedora TOTP method still works in the browser.
+
+* Submitting Fedora 44 COPR builds
+
+First verify that the RPM metadata matches the latest upstream GitHub release:
+
+#+begin_src sh :noeval
+  make check-upstream-version
+#+end_src
+
+Build the source RPM for upload:
+
+#+begin_src sh :noeval
+  make srpm
+  rpm -qpi SRPMS/melonDS-*.fc44.src.rpm
+#+end_src
+
+Submit explicitly to the Fedora 44 chroots:
+
+#+begin_src sh :noeval
+  copr-cli build archjun/melonDS \
+    -r fedora-44-aarch64 \
+    -r fedora-44-x86_64 \
+    SRPMS/melonDS-<version>-<release>.fc44.src.rpm
+#+end_src
+
+Check status and logs:
+
+#+begin_src sh :noeval
+  copr-cli status <build-id>
+  copr-cli list-builds archjun/melonDS
+  copr-cli download-build --logs <build-id>
+#+end_src
+
+* =qpa/qplatformnativeinterface.h= build failures
+
+On Fedora 44, =qpa/qplatformnativeinterface.h= is provided by
+=qt6-qtbase-private-devel=:
+
+#+begin_src sh :noeval
+  dnf repoquery --releasever=44 --whatprovides '*/qpa/qplatformnativeinterface.h'
+#+end_src
+
+The failed =melonDS-1.0-1.fc44= COPR build installed
+=qt6-qtbase-private-devel=, so the failure was not caused by a missing
+~BuildRequires~ line. Upstream =melonDS 1.1= changed the Qt private-header
+include handling for Qt >= 6.5, and the corrected =melonDS-1.1-1.fc44= COPR
+build passed that compile point.
+
+Keep =qt6-qtbase-private-devel= in ~SPECS/melonDS.spec~ while upstream uses Qt
+private headers.
+
+* Upstream release drift
+
+The Makefile checks the latest upstream GitHub release tag using =gh=, falling
+back to =curl= and the GitHub releases API.
+
+#+begin_src sh :noeval
+  make latest-upstream-version
+  make check-upstream-version
+#+end_src
+
+If the spec version is stale, update both:
+
+- ~Version:~ in ~SPECS/melonDS.spec~
+- the top entry in ~%changelog~
+
+Then rebuild the SRPM with =make srpm=.
