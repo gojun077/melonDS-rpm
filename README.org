@@ -72,6 +72,25 @@ Now from the project root, run =make build= which will generate the
 The =make build= recipe will also read ~SPECS/melonDS.spec~ for how to
 build from C/CPP source using =cmake=.
 
+Before downloading sources or building, the Makefile checks GitHub for the
+latest upstream =melonDS= release tag and verifies that it matches the RPM
+~Version:~ in ~SPECS/melonDS.spec~. To run that check directly:
+
+#+begin_src sh :noeval
+  $ make latest-upstream-version
+  $ make check-upstream-version
+#+end_src
+
+The check prefers =gh release view= and falls back to =curl= against the
+GitHub releases API. If upstream has a newer tag, update the spec
+~Version:~ and ~%changelog~ before creating the COPR SRPM.
+
+To build only the source RPM for COPR upload:
+
+#+begin_src sh :noeval
+  $ make srpm
+#+end_src
+
 Note that default upstream https://github.com/melonDS-emu/melonDS strips
 out debug info when building from source with =cmake=. However, in this
 repo, the ~melonDS.spec~ specifies that debug headers not be stripped
